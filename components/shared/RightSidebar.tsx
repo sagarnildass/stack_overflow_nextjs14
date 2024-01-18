@@ -5,23 +5,23 @@ import RenderTags from "./RenderTags";
 
 const RightSidebar = () => {
   const hotQuestions = [
-    { _id: 1, title: "How to use Next.js with Tailwind CSS?" },
-    { _id: 2, title: "How do I use express as a custom server with NextJS?" },
-    { _id: 3, title: "Cascading deletes in SQLAlchemy?" },
-    { _id: 4, title: "How to prefectly center a div with Tailwind CSS?" },
+    { _id: "1", title: "How to use Next.js with Tailwind CSS?" },
+    { _id: "2", title: "How do I use express as a custom server with NextJS?" },
+    { _id: "3", title: "Cascading deletes in SQLAlchemy?" },
+    { _id: "4", title: "How to prefectly center a div with Tailwind CSS?" },
     {
-      _id: 5,
+      _id: "5",
       title:
         "Best practices for data fetching in a NextJS application with Server Side Rendering (SSR)?",
     },
   ];
 
   const popularTags = [
-    { _id: 1, name: "next", totalQuestions: 5 },
-    { _id: 2, name: "react", totalQuestions: 5 },
-    { _id: 3, name: "tailwind", totalQuestions: 5 },
-    { _id: 4, name: "javascript", totalQuestions: 2 },
-    { _id: 5, name: "vue", totalQuestions: 10 },
+    { _id: "1", name: "next", totalQuestions: 5 },
+    { _id: "2", name: "react", totalQuestions: 5 },
+    { _id: "3", name: "tailwind", totalQuestions: 5 },
+    { _id: "4", name: "javascript", totalQuestions: 2 },
+    { _id: "5", name: "vue", totalQuestions: 10 },
   ];
 
   return (
