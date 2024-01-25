@@ -169,6 +169,7 @@ const Question = ({ mongoUserId }: Props) => {
                       "undo redo | blocks | " +
                       "codesample | bold italic forecolor | alignleft aligncenter |" +
                       "alignright alignjustify | bullist numlist",
+                    // eslint-disable-next-line camelcase
                     content_style: "body { font-family:Inter; font-size:16px }",
                   }}
                 />
