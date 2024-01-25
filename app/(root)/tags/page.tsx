@@ -3,7 +3,6 @@ import LocalSearch from "@/components/shared/search/LocalSearch";
 import { UserFilters } from "@/constants/filters";
 import Filter from "@/components/shared/Filter";
 import Link from "next/link";
-import UserCard from "@/components/cards/UserCard";
 import NoResult from "@/components/shared/NoResult";
 import { getAllTags } from "@/lib/actions/tag.action";
 
