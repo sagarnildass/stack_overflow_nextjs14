@@ -1,10 +1,10 @@
+/* eslint-disable camelcase */
 "use client";
-
 import React, { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -14,13 +14,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import { QuestionsSchema } from "@/lib/validation";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { createQuestion } from "@/lib/actions/question.action";
 import { useRouter, usePathname } from "next/navigation";
+import { useTheme } from "@/context/ThemeProvider";
 
 const type: any = "create";
 
@@ -29,11 +30,13 @@ interface Props {
 }
 
 const Question = ({ mongoUserId }: Props) => {
+  const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
-  const pathName = usePathname();
+  const pathname = usePathname();
 
+  // 1. Define your form.
   const form = useForm<z.infer<typeof QuestionsSchema>>({
     resolver: zodResolver(QuestionsSchema),
     defaultValues: {
@@ -46,17 +49,20 @@ const Question = ({ mongoUserId }: Props) => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
     setIsSubmitting(true);
+
     try {
-      // make an async call to our api --> create a new question
+      // make an async call to your API -> create a question
       // contain all form data
-      // navigate to home page
+
       await createQuestion({
         title: values.title,
         content: values.explanation,
         tags: values.tags,
         author: JSON.parse(mongoUserId),
-        path: pathName,
+        path: pathname,
       });
+
+      // navigate to home page
       router.push("/");
     } catch (error) {
     } finally {
@@ -70,6 +76,7 @@ const Question = ({ mongoUserId }: Props) => {
   ) => {
     if (e.key === "Enter" && field.name === "tags") {
       e.preventDefault();
+
       const tagInput = e.target as HTMLInputElement;
       const tagValue = tagInput.value.trim();
 
@@ -77,9 +84,10 @@ const Question = ({ mongoUserId }: Props) => {
         if (tagValue.length > 15) {
           return form.setError("tags", {
             type: "required",
-            message: "Tags must be lesser than 15 characters",
+            message: "Tag must be less than 15 characters.",
           });
         }
+
         if (!field.value.includes(tagValue as never)) {
           form.setValue("tags", [...field.value, tagValue]);
           tagInput.value = "";
@@ -93,6 +101,7 @@ const Question = ({ mongoUserId }: Props) => {
 
   const handleTagRemove = (tag: string, field: any) => {
     const newTags = field.value.filter((t: string) => t !== tag);
+
     form.setValue("tags", newTags);
   };
 
@@ -117,10 +126,8 @@ const Question = ({ mongoUserId }: Props) => {
                 />
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
-                <FormDescription className="body-regular mt-2.5 text-light-500">
-                  Be specific and imagine you&apos;re asking a question to
-                  another person.
-                </FormDescription>
+                Be specific and imagine you&apos;re asking a question to another
+                person.
               </FormDescription>
               <FormMessage className="text-red-500" />
             </FormItem>
@@ -166,19 +173,18 @@ const Question = ({ mongoUserId }: Props) => {
                       "table",
                     ],
                     toolbar:
-                      "undo redo | blocks | " +
+                      "undo redo | " +
                       "codesample | bold italic forecolor | alignleft aligncenter |" +
                       "alignright alignjustify | bullist numlist",
-                    // eslint-disable-next-line camelcase
                     content_style: "body { font-family:Inter; font-size:16px }",
+                    skin: mode === "dark" ? "oxide-dark" : "oxide",
+                    content_css: mode === "dark" ? "dark" : "light",
                   }}
                 />
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
-                <FormDescription className="body-regular mt-2.5 text-light-500">
-                  Introduce the problem and expand what you put in the title.
-                  Minimum 20 characters.
-                </FormDescription>
+                Introduce the problem and expand on what you put in the title.
+                Minimum 20 characters.
               </FormDescription>
               <FormMessage className="text-red-500" />
             </FormItem>
@@ -199,6 +205,7 @@ const Question = ({ mongoUserId }: Props) => {
                     placeholder="Add tags..."
                     onKeyDown={(e) => handleInputKeyDown(e, field)}
                   />
+
                   {field.value.length > 0 && (
                     <div className="flex-start mt-2.5 gap-2.5">
                       {field.value.map((tag: any) => (
@@ -210,7 +217,7 @@ const Question = ({ mongoUserId }: Props) => {
                           {tag}
                           <Image
                             src="/assets/icons/close.svg"
-                            alt="close icon"
+                            alt="Close icon"
                             width={12}
                             height={12}
                             className="cursor-pointer object-contain invert-0 dark:invert"
@@ -222,10 +229,8 @@ const Question = ({ mongoUserId }: Props) => {
                 </>
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
-                <FormDescription className="body-regular mt-2.5 text-light-500">
-                  Add upto 3 tags to describe what your question is about. You
-                  need to press enter to add a tag.
-                </FormDescription>
+                Add up to 3 tags to describe what your question is about. You
+                need to press enter to add a tag.
               </FormDescription>
               <FormMessage className="text-red-500" />
             </FormItem>
