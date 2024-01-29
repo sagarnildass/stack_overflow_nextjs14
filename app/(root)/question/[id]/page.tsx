@@ -2,7 +2,8 @@ import Answer from "@/components/forms/Answer";
 import AllAnswers from "@/components/shared/AllAnswers";
 import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
-import RenderTags from "@/components/shared/RenderTags";
+import RenderTag from "@/components/shared/RenderTags";
+import Votes from "@/components/shared/Votes";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { formatNumber, getTimestamp } from "@/lib/utils";
@@ -11,7 +12,13 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const page = async ({ params, searchParams }) => {
+const Page = async ({
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams: any;
+}) => {
   const { userId: clerkId } = auth();
 
   let mongoUser;
@@ -41,7 +48,9 @@ const page = async ({ params, searchParams }) => {
               {result.author.name}
             </p>
           </Link>
-          <div className="flex justify-end">VOTING</div>
+          <div className="flex justify-end">
+            <Votes />
+          </div>
         </div>
         <h2 className="h2-semibold text-dark200_light900 mt-3.5 w-full text-left">
           {result.title}
@@ -76,7 +85,7 @@ const page = async ({ params, searchParams }) => {
 
       <div className="mt-8 flex flex-wrap gap-2">
         {result.tags.map((tag: any) => (
-          <RenderTags
+          <RenderTag
             key={tag._id}
             _id={tag._id}
             name={tag.name}
@@ -100,4 +109,4 @@ const page = async ({ params, searchParams }) => {
   );
 };
 
-export default page;
+export default Page;
