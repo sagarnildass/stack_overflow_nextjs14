@@ -7,7 +7,7 @@ import {
 } from "@/lib/actions/question.action";
 import { formatNumber } from "@/lib/utils";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 interface Props {
   type: string;
@@ -31,7 +31,7 @@ const Votes = ({
   hasSaved,
 }: Props) => {
   const pathname = usePathname();
-  const router = useRouter();
+  // const router = useRouter();
   const handleSave = () => {};
 
   const handleVote = async (action: string) => {

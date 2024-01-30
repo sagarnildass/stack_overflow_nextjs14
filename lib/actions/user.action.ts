@@ -6,7 +6,6 @@ import {
   CreateUserParams,
   DeleteUserParams,
   GetAllUsersParams,
-  GetUserByIdParams,
   UpdateUserParams,
 } from "./shared.types";
 import { revalidatePath } from "next/cache";
